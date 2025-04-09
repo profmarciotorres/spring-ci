@@ -1,0 +1,39 @@
+name: Build and Test
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+    
+      - name: Setup JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'gradle'
+          cache-dependency-path: gradle.properties
+
+      - name: Grant execute permission on gradlew
+        run: chmod +x gradlew
+      
+      - name: Run tests with coverage
+        run: ./gradlew test
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v2
+          name: jacoco-coverage-report
+        with:
+          path: build/reports/jacoco/test/html
+          retention-days: 5
