@@ -23,4 +23,11 @@ public class DummyTests {
     void testSub() {
         Assertions.assertEquals(2, Calc.sub(3, 1));;
     }
+
+    @Test
+    void testNewFeat() {
+        NewFeat feat = new NewFeat();
+        feat.feature();
+        Assertions.assertTrue(true);
+    }
 }
