@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.4.4'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'jacoco'
 }
 
 group = 'com.example'
@@ -26,3 +27,31 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+test {
+	maxParallelForks = Runtime.runtime.availableProcessors()
+}
+
+// jacocoTestReport {
+// 	dependsOn test
+// }
+
+jacocoTestCoverageVerification {
+
+	violationRules {
+		rule {
+			element = 'CLASS'
+
+			limit {
+				minimum = 0.75
+			}
+			
+			excludes = ['com.example.demo.DemoApplication']
+		}
+	}
+}
+
+check.dependsOn jacocoTestReport 
+check.dependsOn jacocoTestCoverageVerification
+
+test.finalizedBy check
