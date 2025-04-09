@@ -32,8 +32,7 @@ jobs:
 
       - name: Upload coverage report
         if: always()
-        uses: actions/upload-artifact@v2        
+        uses: actions/upload-artifact@v4
         with:
           name: jacoco-coverage-report
           path: build/reports/jacoco/test/html
-          retention-days: 5
